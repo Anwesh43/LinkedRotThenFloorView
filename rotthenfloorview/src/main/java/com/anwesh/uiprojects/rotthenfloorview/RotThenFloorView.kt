@@ -214,4 +214,13 @@ class RotThenFloorView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : RotThenFloorView {
+            val view : RotThenFloorView = RotThenFloorView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
