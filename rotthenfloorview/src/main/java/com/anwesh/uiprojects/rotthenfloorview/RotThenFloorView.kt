@@ -58,7 +58,7 @@ fun Canvas.drawRTFNode(i : Int, scale : Float, paint : Paint) {
     restore()
 }
 
-class RotTheFloorView(ctx : Context) : View(ctx) {
+class RotThenFloorView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -188,6 +188,28 @@ class RotTheFloorView(ctx : Context) : View(ctx) {
 
         fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : RotThenFloorView) {
+
+        private val animator : Animator = Animator(view)
+        private val rtf : RotThenFloor = RotThenFloor(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            rtf.draw(canvas, paint)
+            animator.animate {
+                rtf.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            rtf.startUpdating {
+                animator.start()
+            }
         }
     }
 }
